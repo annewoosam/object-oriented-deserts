@@ -6,21 +6,26 @@ class Cupcake:
 
     cache = {}
 
-    def __init__(self, name, flavor, price):
-         self.name=name
-         self.flavor=flavor
-         self.price=price
-         self.qty=0
-
     def __repr__(self):
-        """Human-readable printout for debugging."""
+      """Human-readable printout for debugging."""
 
-        return f'<Cupcake name="{self.name}" qty={self.qty}>'
+      return f'<Cupcake name="{self.name}" qty={self.qty}>'
+
+    def __init__(self, name, flavor, price):
+        self.name=name
+        self.flavor=flavor
+        self.price=price
+        
+        # sets initial qty to 0
+        self.qty=0
+        # saves cupcake name to cache so can check if available
+        self.cache[name] = self
 
     
     def add_stock(self,amount):
       # Add the amount to self.qty
       # When called the method will add the amount placed in the amount area to self.qty
+      # += is shorthand for when the field appears on both sides of the equation
         self.qty+=amount
     
     def sell(self, amount):
@@ -28,16 +33,16 @@ class Cupcake:
       # If there are 0 cupcakes available, print 'Sorry, these cupcakes are sold out' 
       # Make sure self.qty never goes below 0
       if self.qty==0:
-        print('Sorry these cupcakes are sold out.')
+        print('Sorry, these cupcakes are sold out')
         return
 
       elif self.qty<amount:
-        print(self.qty,'is all we have. What number would you like?')
+        self.qty = 0
+        # print(self.qty,'is all we have. What number would you like?')
         return
 
-      else:
-        self.qty-=amount
-        print(stock)
+        # -= is shorthand for where the field appears on both sides of the equation
+      self.qty-=amount
 
     @staticmethod
     def scale_recipe(ingredients, amount):
@@ -45,17 +50,18 @@ class Cupcake:
      # ingredients is a list of tuples with (ingredient_name, ingredient_qty). For example: [('flour', 1), ('eggs', 3)]
      # Return a list of tuples with the quantity for each ingredient multiplied by amount.
      # In terminal Cupcake.scale_recipe([('flour', 1), ('eggs', 3)], 2)
-        return [(ingredients, qty * amount)
+        return [(ingredient, qty * amount)
             for ingredient,qty in ingredients]
      
     @classmethod
     def get(cls, name):
      # Return a cupcake from cls.cache. If name doesn’t exist, print "Sorry, that cupcake doesn't exist"
         if name not in cls.cache:
-            print("Sorry that cupcake doesn't exist")
+            print("Sorry, that cupcake doesn't exist")
             return
 
-        return cls.cache
+        # name required
+        return cls.cache[name]
     
     if __name__ == '__main__':
         import doctest
