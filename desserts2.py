@@ -66,11 +66,11 @@ class Cupcake:
 class Brownies(Cupcake):
     
       cache = {}
-      
-      flavor="chocolate"
 
-      def __init__(self, name, price, qty):
+      def __init__(self, name, flavor, price, qty):
           super().__init__(name, price, qty)  
+          self.flavor="chocolate"
+          self.qty = qty
           # qty added
 
       def add_stock(self,amount):
